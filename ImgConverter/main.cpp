@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <string_view>
 #include <iostream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -114,15 +115,20 @@ int main(int argc, const char** argv) {
         return 3;
     }
 
-    img_lib::Image image = input_format->LoadImage(in_path);
-    if (!image) {
+    try {
+        img_lib::Image image = input_format->LoadImage(in_path);
+        if (!image) {
+            cerr << "Loading failed " << in_path << endl;
+            return 4;
+        }
+        if (!output_format->SaveImage(out_path, image)) {
+            cerr << "Saving failed " << out_path << endl;
+            return 5;
+        }
+    } catch (const std::runtime_error& error) {
         cerr << "Loading failed " << in_path << endl;
-        return 4;
-    }
-
-    if (!output_format->SaveImage(out_path, image)) {
-        cerr << "Saving failed " << out_path << endl;
-        return 5;
+        cerr << "Error: "<< error.what() << endl;
+        return 4; // Код ошибки
     }
 
     cout << "Successfully converted"sv << endl;
