@@ -12,7 +12,7 @@ ImgLib — это практическая реализация инструме
 
 ### Сборка
 ```
-git clone https://github.com/yourusername/cpp-image-converter.git
+git clone https://github.com/Rinalii/image-converter.git
 cd cpp-image-converter
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
